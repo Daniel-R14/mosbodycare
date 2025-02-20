@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header with Navigation and Cart Icon -->
+    <header>
+        <div class="container">
+            <h1 class="logo"> MO'S BODY CARE</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+            <div class="cart-container">
+                <button id="cartIcon" onclick="toggleCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            
+            <h2>Welcome to My Store!</h2>
+        <p>
+            At My Store, we're passionate about bringing you the best shopping experience possible. Whether you're looking for cutting-edge electronics, fashion-forward apparel, or home essentials, we've got something for every need and taste. Our store offers a wide range of products, all carefully selected to ensure quality, value, and style.
+        </p>
+        <p>
+            Our team works tirelessly to curate a collection that meets the highest standards, and we are always adding exciting new items. We believe that shopping should be easy, enjoyable, and convenient. With just a few clicks, you can find exactly what you're looking for, make secure purchases, and have your products delivered right to your door.
+        </p>
+        <p>
+            We understand that each customer is unique, which is why we strive to offer personalized service and exceptional support. Our customer care team is always here to assist with any questions or concerns you might have, ensuring a smooth and hassle-free experience every time you shop with us.
+        </p>
+        <p>
+            Thank you for choosing My Store – we can't wait to help you discover the perfect products for your life. Dive into our collection today and start enjoying the best shopping experience around. We're here to make your shopping journey memorable, enjoyable, and rewarding.
+        </p>
+    
+        </div>
+    </section>
+    <div class="welcome-images">
+
+    <!-- Products Section -->
+    <section id="products">
+        <h2>Our Products</h2>
+        <div class="products-container">
+            <div class="product">
+                <img src="images/Gatorade® Peanut Butter Chocolate Protein Bars 6 Count.jpg" alt="Product 1">
+                <h3>Gatorade® Peanut</h3>
+                <p>$10</p>
+                <button onclick="addToCart('Gatorade® Peanut', 10)">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/Gluten Free Protein Bars.jpg" alt="Product 2">
+                <h3>Gluten Free Protein Bars</h3>
+                <p>$20</p>
+                <button onclick="addToCart('Gluten Free Protein Bars', 20)">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/Sales -Deals.jpg" alt="Product 3">
+                <h3>Whey Protein</h3>
+                <p>$30</p>
+                <button onclick="addToCart('Premier Protein Powder, Vanilla Milkshake', 30)">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/Protein Bar.jpg" alt="Product 4">
+                <h3>Protein Bar</h3>
+                <p>$40</p>
+                <button onclick="addToCart('Protein Bar', 40)">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Us</h2>
+    <p>
+        Welcome to My Store, where we believe in offering high-quality products at affordable prices. Our journey began in 2024 with a small vision of creating a platform that delivers the best shopping experience. Since then, we have grown into a trusted name in the industry, constantly evolving and expanding our range to meet the needs of our diverse customer base.
+    </p>
+    <p>
+        At My Store, we prioritize customer satisfaction above everything else. Our team works tirelessly to ensure that every product meets our high standards. Whether you're looking for the latest gadgets, stylish fashion, or home essentials, we have something for everyone. We carefully source products from reputable suppliers and partners, ensuring that you receive the best value for your money.
+    </p>
+    <p>
+        Over the years, we have built lasting relationships with our customers, and we take pride in providing excellent customer service. Our support team is available around the clock to assist with any queries or issues you might have. We also offer fast shipping to ensure your items arrive in perfect condition and on time.
+    </p>
+    <p>
+        Our mission is simple: to provide a seamless shopping experience that makes our customers' lives easier and more enjoyable. We believe in transparency, integrity, and building trust with our customers. We continuously strive to innovate and improve, bringing you the latest trends, cutting-edge technology, and a wide variety of products to choose from.
+    </p>
+    <p>
+        We are also committed to sustainability. We actively work to reduce our carbon footprint by using eco-friendly packaging and partnering with environmentally-conscious suppliers. Our goal is to make the world a better place, one product at a time.
+    </p>
+    <p>
+        Thank you for choosing My Store. We are excited to continue serving you and helping you find exactly what you're looking for. Your satisfaction is our top priority, and we look forward to being part of your shopping journey for many years to come.
+    </p>
+</section>
+
+    <div class="cart-modal" id="cartModal">
+        <h2>Your Cart</h2>
+        <ul id="cartItems">
+            <li>No items in the cart</li>
+        </ul>
+        <p><strong>Total: $<span id="totalAmount">0</span></strong></p>
+        <button onclick="clearCart()">Clear Cart</button>
+        <button onclick="toggleCart()">Close</button>
+    </div>
+
+    <!-- Footer Section (Copyright) -->
+    <footer>
+        <p>&copy; 2025 MO'S BODY CARE. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let cartItems = [];
+        let totalAmount = 0;
+
+        function addToCart(productName, price) {
+            cartItems.push({ name: productName, price: price });
+            totalAmount += price;
+            updateCart();
+        }
+
+        function updateCart() {
+            document.getElementById("cartCount").textContent = cartItems.length;
+
+            const cartItemsList = document.getElementById("cartItems");
+            cartItemsList.innerHTML = '';
+            if (cartItems.length === 0) {
+                cartItemsList.innerHTML = '<li>No items in the cart</li>';
+            } else {
+                cartItems.forEach((item, index) => {
+                    const listItem = document.createElement("li");
+                    listItem.innerHTML = `${item.name} - $${item.price} <button onclick="removeFromCart(${index})">Remove</button>`;
+                    cartItemsList.appendChild(listItem);
+                });
+            }
+
+            document.getElementById("totalAmount").textContent = totalAmount;
+        }
+
+        function removeFromCart(index) {
+            totalAmount -= cartItems[index].price;
+            cartItems.splice(index, 1);
+            updateCart();
+        }
+
+        function clearCart() {
+            cartItems = [];
+            totalAmount = 0;
+            updateCart();
+        }
+
+        function toggleCart() {
+            const cartModal = document.getElementById("cartModal");
+            cartModal.style.display = cartModal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function goToCart() {
+            alert("Redirecting to cart..."); // Implement your cart navigation here
+        }
+    </script>
+</body>
+</html>
